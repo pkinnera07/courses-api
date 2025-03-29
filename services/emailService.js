@@ -1,4 +1,6 @@
 // services/emailService.js
+require('dotenv').config(); // Load environment variables from .env file
+
 const nodemailer = require('nodemailer');
 
 // Create a transporter using Gmail's SMTP server (or use your own email service's SMTP server)
