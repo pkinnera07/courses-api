@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'); // Correct import
 const uri = "mongodb+srv://pkinnera0707:MongoDB2025@online-learning-platfor.o2jmj.mongodb.net/OLPlatformDB?retryWrites=true&w=majority"; // Ensure the database name is included
 
+// Function to connect to MongoDB
 const connectDB = async () => {
     try {
         await mongoose.connect(uri);
