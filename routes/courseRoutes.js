@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Get a single course by name
+// Get a single course by name (including to use in Application's search bar)
 router.get("/name/:name", async (req, res) => {
     try {
         const { name } = req.params;
