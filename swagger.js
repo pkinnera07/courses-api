@@ -9,7 +9,7 @@ const swaggerOptions = {
       version: "1.0.0", // API version
       description: "API documentation for the Online Learning Platform with REST and GraphQL endpoints.",
       contact: {
-        name: "Your Name",
+        name: "Pranay Kumar Kinnera",
         email: "your.email@example.com",
       },
     },
@@ -17,6 +17,10 @@ const swaggerOptions = {
       {
         url: "http://localhost:5000/api", // Local development server
         description: "Local Development Server",
+      },
+      {
+        url: "https://ignited-psi.vercel.app/api", // Cloud-deployed server
+        description: "Cloud Deployed Server",
       },
     ],
   },
