@@ -9,6 +9,8 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true, // Enable introspection in production
+  playground: true, // Enable GraphQL Playground in production
   context: ({ req }) => {
     // Here you can handle things like authentication context if needed
     return {};

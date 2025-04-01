@@ -9,6 +9,9 @@ const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
 
+// Import Swagger setup from swagger.js
+const { swaggerSpec, swaggerUi } = require("./swagger");
+
 const app = express();
 
 // Load Environment Variables
@@ -20,6 +23,9 @@ connectDB();
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+// Serve Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes (REST API)
 app.use("/api/courses", courseRoutes);
@@ -40,14 +46,15 @@ const server = new ApolloServer({
 async function startServer() {
   // Ensure that Apollo Server starts first before applying the middleware
   await server.start();
-  
+
   // Apply GraphQL middleware to Express app
-  server.applyMiddleware({ app, path: '/graphql' }); // This adds a /graphql endpoint for GraphQL queries
+  server.applyMiddleware({ app, path: "/graphql" }); // This adds a /graphql endpoint for GraphQL queries
 
   // Start the Express server after Apollo Server setup
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}${server.graphqlPath}`);
+    console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
   });
 }
 
