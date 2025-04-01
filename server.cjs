@@ -8,17 +8,15 @@ const instructorRoutes = require("./routes/instructorRoutes");
 const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
-
-// Import Swagger setup from swagger.js
 const { swaggerSpec, swaggerUi } = require("./swagger");
-
-const app = express();
 
 // Load Environment Variables
 require("dotenv").config();
 
 // Connect to MongoDB
 connectDB();
+
+const app = express();
 
 // Middleware
 app.use(cors());
@@ -27,7 +25,7 @@ app.use(bodyParser.json());
 // Serve Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Routes (REST API)
+// REST API Routes
 app.use("/api/courses", courseRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/instructors", instructorRoutes);
@@ -36,27 +34,24 @@ app.use("/api/instructors", instructorRoutes);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true, // Enable introspection for production
+  playground: true,    // Enable GraphQL Playground for production
   context: ({ req }) => {
-    // You can add authentication logic or other context data if needed
+    // Add authentication or other context logic here if needed
     return {};
   },
 });
 
-// Wrap the async logic in a function
+// Start the server
 async function startServer() {
-  // Ensure that Apollo Server starts first before applying the middleware
   await server.start();
+  server.applyMiddleware({ app, path: "/graphql" });
 
-  // Apply GraphQL middleware to Express app
-  server.applyMiddleware({ app, path: "/graphql" }); // This adds a /graphql endpoint for GraphQL queries
-
-  // Start the Express server after Apollo Server setup
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}${server.graphqlPath}`);
+    console.log(`Server running on http://localhost:${PORT}${server.graphqlPath}`);
     console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
   });
 }
 
-// Call the startServer function to begin the process
 startServer();
