@@ -9,6 +9,7 @@ const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
 const { swaggerSpec, swaggerUi } = require("./swagger");
+const { expressPlayground } = require("graphql-playground-middleware-express");
 
 // Load Environment Variables
 require("dotenv").config();
@@ -29,6 +30,14 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/courses", courseRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/instructors", instructorRoutes);
+
+// Serve GraphQL Playground at /playground
+app.get(
+  "/playground",
+  expressPlayground({
+    endpoint: "/graphql", // The GraphQL endpoint
+  })
+);
 
 // GraphQL Server Setup
 const server = new ApolloServer({
