@@ -151,26 +151,6 @@ const router = express.Router();
  *               email:
  *                 type: string
  *                 description: The email of the student.
- *               enrolledCourses:
- *                 type: array
- *                 items:
- *                   type: string
- *                 description: A list of course IDs the student is enrolled in.
- *               progress:
- *                 type: array
- *                 items:
- *                   type: object
- *                   properties:
- *                     course:
- *                       type: string
- *                       description: The ID of the course.
- *                     completedPercentage:
- *                       type: number
- *                       description: The percentage of completion for the course.
- *                     lastActiveDate:
- *                       type: string
- *                       format: date-time
- *                       description: The last active date of the student in the course.
  *     responses:
  *       201:
  *         description: The student was successfully created and a welcome email was sent.

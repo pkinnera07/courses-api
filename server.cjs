@@ -31,6 +31,10 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/instructors", instructorRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Course Management API!");
+});
+
 // Serve GraphQL Playground at /playground
 app.get(
   "/playground",
