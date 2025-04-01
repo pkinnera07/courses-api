@@ -23,6 +23,12 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Serve Swagger JSON directly
+app.get("/api-docs.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
+
 // Serve Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

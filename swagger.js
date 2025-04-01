@@ -19,7 +19,7 @@ const swaggerOptions = {
         description: "Local Development Server",
       },
       {
-        url: "https://ignited-psi.vercel.app/", // Cloud-deployed server
+        url: "https://ignited-psi.vercel.app/api", // Cloud-deployed server
         description: "Cloud Deployed Server",
       },
     ],
