@@ -416,6 +416,101 @@ const router = express.Router();
  *                   type: string
  *                   description: A message explaining why the request failed.
  */
+
+/**
+ * @swagger
+ * /students/{id}/enroll:
+ *   post:
+ *     tags:
+ *       - Students
+ *     summary: Enroll a student in a course
+ *     description: Enrolls a student in a specified course and sends an email confirmation. Also fetches course recommendations based on the enrolled course.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The unique identifier of the student to enroll.
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               courseId:
+ *                 type: string
+ *                 description: The unique identifier of the course to enroll the student in.
+ *     responses:
+ *       200:
+ *         description: The student was successfully enrolled in the course, and recommendations were fetched.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 student:
+ *                   type: object
+ *                   description: The updated student object after enrollment.
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: The unique identifier of the student.
+ *                     name:
+ *                       type: string
+ *                       description: The name of the student.
+ *                     email:
+ *                       type: string
+ *                       description: The email of the student.
+ *                     enrolledCourses:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                       description: A list of course IDs the student is enrolled in.
+ *                 recommendations:
+ *                   type: array
+ *                   description: A list of recommended courses based on the enrolled course.
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: The unique identifier of the recommended course.
+ *                       name:
+ *                         type: string
+ *                         description: The name of the recommended course.
+ *                       description:
+ *                         type: string
+ *                         description: The description of the recommended course.
+ *                       duration:
+ *                         type: string
+ *                         description: The duration of the recommended course.
+ *                       rating:
+ *                         type: number
+ *                         description: The rating of the recommended course.
+ *       404:
+ *         description: Student or course not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message indicating that the student or course was not found.
+ *       400:
+ *         description: Invalid input data or enrollment failed.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message explaining why the request failed.
+ */
+
 async function fetchRecommendations(courseId) {
     try {
         const response = await axios.get(`https://course-recommendations-api.vercel.app/recommendations/${courseId}`);
